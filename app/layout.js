@@ -1,28 +1,27 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Inter } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
 export const metadata = {
-  title: "Vault 2.0",
-  description: "A platform for students to access their past exam papers",
+  title: "Vault · Every Exam Paper, Right Here",
+  description:
+    "VAULT is a coin-powered exam paper library for Indian college students. Access previous year papers, unlock with coins, and study smarter.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} font-inter antialiased bg-slate-950 text-text-main`}
       >
-        {children}
+        <div className="min-h-screen bg-[#285A48] text-text-main">
+          {children}
+        </div>
       </body>
     </html>
   );
