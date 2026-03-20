@@ -1,9 +1,15 @@
 
 "use client";
  
+import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { useSession, signOut } from "next-auth/react";
  
 export default function Navbar({ coins }) {
+  const { data: session } = useSession();
+  const [logoHover, setLogoHover] = useState(false);
+
   return (
     <motion.header
       className="fixed inset-x-0 top-0 z-50"
@@ -22,12 +28,14 @@ export default function Navbar({ coins }) {
           }}
         >
           {/* Left — Logo */}
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div
               className="flex h-9 w-9 items-center justify-center rounded-2xl shadow-sm"
               style={{ background: "#25671E", border: "1px solid #1a4d15" }}
+              onMouseEnter={() => setLogoHover(true)}
+              onMouseLeave={() => setLogoHover(false)}
             >
-              <span className="text-lg">🔐</span>
+              <span className="text-lg">{logoHover ? "🔑" : "🔐"}</span>
             </div>
             <div className="flex items-baseline gap-1 text-lg font-semibold tracking-tight">
               <span style={{ color: "#25671E" }}>VAULT</span>
@@ -39,7 +47,7 @@ export default function Navbar({ coins }) {
                 }}
               />
             </div>
-          </div>
+          </Link>
  
           {/* Center — Nav links */}
           <nav className="hidden md:flex items-center gap-8 text-sm">
@@ -62,42 +70,76 @@ export default function Navbar({ coins }) {
  
           {/* Right — Coin pill + CTA */}
           <div className="flex items-center gap-3">
-            {/* Coin pill */}
-            <div
-              className="hidden sm:flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium"
-              style={{
-                background: "rgba(37, 103, 30, 0.06)",
-                border: "1px solid rgba(242, 181, 11, 0.55)",
-              }}
-            >
+            {/* Coin pill - only shown when logged in */}
+            {session?.user && (
               <div
-                className="flex h-6 w-6 items-center justify-center rounded-full text-xs"
+                className="hidden sm:flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium"
                 style={{
-                  background: "#F2B50B",
-                  boxShadow: "0 0 14px rgba(242,181,11,0.55)",
+                  background: "rgba(37, 103, 30, 0.06)",
+                  border: "1px solid rgba(242, 181, 11, 0.55)",
                 }}
               >
-                🪙
+                <div
+                  className="flex h-6 w-6 items-center justify-center rounded-full text-xs"
+                  style={{
+                    background: "#F2B50B",
+                    boxShadow: "0 0 14px rgba(242,181,11,0.55)",
+                  }}
+                >
+                  🪙
+                </div>
+                <span style={{ color: "#25671E", opacity: 0.65 }}>Coins</span>
+                <span
+                  className="text-sm font-semibold tabular-nums"
+                  style={{ color: "#25671E" }}
+                >
+                  {session.user.coinBalance || 0}
+                </span>
               </div>
-              <span style={{ color: "#25671E", opacity: 0.65 }}>Coins</span>
-              <span
-                className="text-sm font-semibold tabular-nums"
-                style={{ color: "#25671E" }}
-              >
-                {coins}
-              </span>
-            </div>
- 
-            {/* CTA */}
-            <button
-              className="hidden sm:inline-flex rounded-full px-4 py-2 text-xs sm:text-sm font-semibold text-white transition-all hover:-translate-y-0.5 active:scale-95"
-              style={{
-                background: "#25671E",
-                boxShadow: "0 4px 14px rgba(37, 103, 30, 0.35)",
-              }}
-            >
-              Sign Up Free
-            </button>
+            )}
+
+            {/* Auth Actions */}
+            {session?.user? (
+              <div className="flex items-center gap-2">
+                <span className="hidden sm:text-xs font-medium px-2" style={{ color: "#25671E" }}>
+                  {session.user.name}
+                </span>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="hidden sm:inline-flex rounded-full px-4 py-2 text-xs sm:text-sm font-semibold text-white transition-all hover:-translate-y-0.5 active:scale-95"
+                  style={{
+                    background: "#25671E",
+                    boxShadow: "0 4px 14px rgba(37, 103, 30, 0.35)",
+                  }}
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Link
+                  href="/auth/login"
+                  className="hidden sm:inline-flex rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-all hover:opacity-70"
+                  style={{
+                    background: "rgba(37, 103, 30, 0.1)",
+                    border: "1px solid rgba(37, 103, 30, 0.2)",
+                    color: "#25671E",
+                  }}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="hidden sm:inline-flex rounded-full px-4 py-2 text-xs sm:text-sm font-semibold text-white transition-all hover:-translate-y-0.5 active:scale-95"
+                  style={{
+                    background: "#25671E",
+                    boxShadow: "0 4px 14px rgba(37, 103, 30, 0.35)",
+                  }}
+                >
+                  Sign Up Free
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

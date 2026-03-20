@@ -9,7 +9,7 @@ const paperSchema = new mongoose.Schema({
   institute: { type: String, required: true, trim: true },
   subject: { type: String, required: true, trim: true },
   program: { type: String, required: true, trim: true },
-  specilization: { type: String, required: true, trim: true },
+  specialization: { type: String, required: true, trim: true },
   semester: { type: Number, required: true, min: 1 },
   year: { type: Number, required: true, min: 2000 },
   status: {
@@ -17,6 +17,7 @@ const paperSchema = new mongoose.Schema({
     enum: ["approved", "pending", "rejected"],
     default: "pending",
   },
+  isExtracted: { type: Boolean, default: false },
   storageURL: { type: String, required: true, trim: true },
   unlockCounts: { type: Number, default: 0, min: 0 },
   saveCounts: { type: Number, default: 0, min: 0 },

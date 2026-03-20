@@ -4,6 +4,7 @@
  
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import Navbar from "@/component/Navbar";
  
 // ─── Palette ──────────────────────────────────────────────────────────────────
@@ -192,7 +193,8 @@ function HeroSection({ floatingCards }) {
             animate="visible"
             custom={0.3}
           >
-            <button
+            <Link
+              href="/auth/signup"
               className="inline-flex items-center rounded-full px-8 py-4 text-sm sm:text-base font-semibold text-white transition-all hover:-translate-y-0.5 active:scale-95"
               style={{
                 background: "#25671E",
@@ -200,8 +202,9 @@ function HeroSection({ floatingCards }) {
               }}
             >
               Get 100 Free Coins →
-            </button>
-            <button
+            </Link>
+            <Link
+              href="#library"
               className="inline-flex items-center rounded-full px-8 py-4 text-sm sm:text-base font-semibold transition-all hover:-translate-y-0.5"
               style={{
                 background: "#FAF6EF",
@@ -211,7 +214,7 @@ function HeroSection({ floatingCards }) {
               }}
             >
               Browse Papers
-            </button>
+            </Link>
           </motion.div>
  
           {/* Trust badges */}

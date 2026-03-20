@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { Providers } from "@/component/Providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,9 +20,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} font-inter antialiased bg-slate-950 text-text-main`}
       >
-        <div className="min-h-screen bg-[#285A48] text-text-main">
-          {children}
-        </div>
+        <Providers>
+          <div className="min-h-screen bg-[#285A48] text-text-main">
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );
