@@ -204,7 +204,7 @@ function HeroSection({ floatingCards }) {
             <button
               className="inline-flex items-center rounded-full px-8 py-4 text-sm sm:text-base font-semibold transition-all hover:-translate-y-0.5"
               style={{
-                background: "[#FAF6EF]",
+                background: "#FAF6EF",
                 border: "1.5px solid rgba(37, 103, 30, 0.25)",
                 color: "#25671E",
                 boxShadow: "0 2px 10px rgba(37, 103, 30, 0.08)",
