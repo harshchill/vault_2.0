@@ -18,6 +18,24 @@ export default function SignupPage() {
   const [error, setError] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
 
+  async function getPostSignupDestination() {
+    try {
+      const response = await fetch("/api/onboarding", { cache: "no-store" });
+      if (!response.ok) {
+        return "/onboarding";
+      }
+
+      const data = await response.json();
+      if (data?.isOnboarded === false) {
+        return "/onboarding";
+      }
+    } catch (err) {
+      console.error("Onboarding check error:", err);
+    }
+
+    return "/";
+  }
+
   function validateForm() {
     const errors = {};
 
@@ -83,7 +101,8 @@ export default function SignupPage() {
       });
 
       if (signInResult?.ok) {
-        router.push("/");
+        const destination = await getPostSignupDestination();
+        router.push(destination);
       } else {
         setError("Account created, but auto-login failed. Please sign in.");
       }
@@ -99,7 +118,7 @@ export default function SignupPage() {
     setError("");
     setLoading(true);
     try {
-      await signIn("google", { redirect: true, callbackUrl: "/" });
+      await signIn("google", { redirect: true, callbackUrl: "/onboarding" });
     } catch (err) {
       setError("Google sign-up failed");
       console.error(err);

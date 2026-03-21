@@ -1,6 +1,7 @@
 import bcryptjs from "bcryptjs";
 import { connectDB } from "@/lib/connectDB";
 import User from "@/app/models/user";
+import { createUserWithUniqueReferralCode } from "@/lib/referral";
 
 export async function POST(req) {
   try {
@@ -46,11 +47,11 @@ export async function POST(req) {
     const hashedPassword = await bcryptjs.hash(password, salt);
 
     // Create user
-    const user = await User.create({
+    const user = await createUserWithUniqueReferralCode({
       name,
       email,
       hashedPassword,
-      coinBalance: 100, // Starter coins
+      coinBalance: 0, 
       role: "user",
       createdAt: new Date(),
     });

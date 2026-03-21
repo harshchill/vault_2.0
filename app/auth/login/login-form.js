@@ -17,6 +17,24 @@ export default function LoginForm() {
 
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
+  async function getPostAuthDestination() {
+    try {
+      const response = await fetch("/api/onboarding", { cache: "no-store" });
+      if (!response.ok) {
+        return callbackUrl;
+      }
+
+      const data = await response.json();
+      if (data?.isOnboarded === false) {
+        return "/onboarding";
+      }
+    } catch (err) {
+      console.error("Onboarding check error:", err);
+    }
+
+    return callbackUrl;
+  }
+
   async function handleCredentialsSubmit(e) {
     e.preventDefault();
     setError("");
@@ -32,7 +50,8 @@ export default function LoginForm() {
       if (result?.error) {
         setError(result.error || "Login failed");
       } else if (result?.ok) {
-        router.push(callbackUrl);
+        const destination = await getPostAuthDestination();
+        router.push(destination);
       }
     } catch (err) {
       setError("An unexpected error occurred");
@@ -46,7 +65,8 @@ export default function LoginForm() {
     setError("");
     setLoading(true);
     try {
-      await signIn("google", { redirect: true, callbackUrl });
+      const googleCallbackUrl = callbackUrl === "/" ? "/onboarding" : callbackUrl;
+      await signIn("google", { redirect: true, callbackUrl: googleCallbackUrl });
     } catch (err) {
       setError("Google sign-in failed");
       console.error(err);

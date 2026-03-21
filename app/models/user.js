@@ -4,10 +4,10 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   hashedPassword: { type: String, default: null }, // Allow null for OAuth-only users
   name: { type: String, required: true },
-  coinBalance: { type: Number, default: 100 }, // Default 100 starter coins
-  isPremium: { type: Boolean, default: false },
+  coinBalance: { type: Number, default: 0 }, 
+  isPremium: { type: Boolean, default: false  },
   premiumExpiry: { type: Date },
-  referralCode: { type: String, unique: true },
+  referralCode: { type: String, required: true, unique: true },
   referredBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
