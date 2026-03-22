@@ -18,6 +18,7 @@ const paperSchema = new mongoose.Schema({
     default: "pending",
   },
   isExtracted: { type: Boolean, default: false },
+  storageFileName: { type: String, required: true, trim: true },
   storageURL: { type: String, required: true, trim: true },
   unlockCounts: { type: Number, default: 0, min: 0 },
   saveCounts: { type: Number, default: 0, min: 0 },

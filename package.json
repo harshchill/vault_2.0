@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.99.3",
     "bcryptjs": "^3.0.3",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.577.0",
