@@ -124,7 +124,7 @@ export default function OnboardingPage() {
       );
 
       setTimeout(() => {
-        router.replace("/");
+        router.replace("/user/browse");
       }, 750);
     } catch (error) {
       console.error(error);
@@ -441,7 +441,7 @@ function Field({ label, value, onChange, placeholder, icon }) {
         {label}
       </label>
       <div className="relative flex items-center">
-        <span className="absolute left-3" style={{ color: "#48A111" }}>
+        <span className="absolute left-3 pr-2.5" style={{ color: "#48A111" }}>
           {icon}
         </span>
         <input

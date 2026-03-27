@@ -77,18 +77,20 @@ export default function BrowsePapersPage() {
         setTotalCount(result.pagination.totalCount);
 
         // Check which papers are saved
-        if (result.papers.length > 0) {
+        if (session?.user && result.papers.length > 0) {
           const paperIds = result.papers.map(p => p._id);
           const savedResult = await checkSavedPapers(paperIds);
           if (savedResult.success) {
             setSavedPaperIds(savedResult.savedPaperIds);
           }
+        } else {
+          setSavedPaperIds([]);
         }
       }
       setLoading(false);
     }
     loadPapers();
-  }, [filters, currentPage]);
+  }, [filters, currentPage, session?.user]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
